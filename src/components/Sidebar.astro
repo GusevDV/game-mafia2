@@ -1,0 +1,111 @@
+---
+import { SITE_DESCRIPTION, getUsedCategories, categoryUrl } from '@/lib/site';
+
+const categories = await getUsedCategories();
+const current = Astro.url.pathname.split('/')[1];
+---
+
+<aside class="sidebar" id="sidebar">
+  <nav aria-label="Рубрики">
+    <h2>Рубрики</h2>
+    {categories.map((c) => (
+      <a
+        href={categoryUrl(c.slug)}
+        class:list={{ active: c.slug === current }}
+        aria-current={c.slug === current ? 'page' : undefined}
+      >
+        <span>{c.name}</span>
+        <span class="count">{c.count}</span>
+      </a>
+    ))}
+  </nav>
+  <p class="tagline muted">{SITE_DESCRIPTION}</p>
+</aside>
+
+<style>
+  .sidebar {
+    width: 15rem;
+    flex-shrink: 0;
+  }
+
+  h2 {
+    margin: 0 0 0.6rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  nav a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  nav a:hover {
+    background: var(--bg-overlay);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  nav a.active {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 600;
+  }
+
+  .count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  nav a.active .count {
+    color: var(--accent-contrast);
+  }
+
+  .tagline {
+    margin-top: 1.2rem;
+    padding: 0.8rem 0.7rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* на страницах с sidebar={false} колонка скрыта на десктопе,
+     но на мобильных остаётся доступной через бургер */
+  @media (min-width: 60.01rem) {
+    :global(body.no-sidebar) .sidebar {
+      display: none;
+    }
+  }
+
+  @media (max-width: 60rem) {
+    .sidebar {
+      display: none;
+      width: 100%;
+    }
+
+    /* открывается выпадающей панелью под липким хедером (он z-index: 20) */
+    :global(body.nav-open) .sidebar {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 15;
+      padding: 4.75rem 1rem 1.5rem;
+      background: var(--bg);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+  }
+</style>

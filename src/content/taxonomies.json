@@ -1,0 +1,304 @@
+{
+  "categories": [
+    {
+      "slug": "programs",
+      "name": "Программы",
+      "description": ""
+    },
+    {
+      "slug": "news",
+      "name": "Новости",
+      "description": ""
+    },
+    {
+      "slug": "video",
+      "name": "Видео",
+      "description": ""
+    },
+    {
+      "slug": "dlc",
+      "name": "DLC",
+      "description": ""
+    },
+    {
+      "slug": "mods",
+      "name": "Моды",
+      "description": ""
+    },
+    {
+      "slug": "cheats",
+      "name": "Читы",
+      "description": ""
+    },
+    {
+      "slug": "proxozhdenie",
+      "name": "Прохождение",
+      "description": ""
+    },
+    {
+      "slug": "files",
+      "name": "Файлы",
+      "description": ""
+    },
+    {
+      "slug": "articles",
+      "name": "Статьи и гайды",
+      "description": ""
+    },
+    {
+      "slug": "cars",
+      "name": "Машины",
+      "description": "В это разделе публикуются машины для Mafia 2. Многие машины для Mafia 2 выходят эксклюзивно для нашего сайта (спасибо Agens), поэтому здесь они появляются первыми и мы всегда можем оказать вам оперативную поддержку по любым вопросам в комментариях или нашей <a href=\"https://vk.com/game_mafia2\">группе ВКонтакте.</a>\r\nМы уделяем большое внимание деталям, поэтому каждая машина имеет скриншот, инструкцию по установке и два сервера загрузки.  Все машины для Mafia 2 разделены на категории по маркам для быстрого поиска. В категории \"ретро\" будут публиковаться атмосферные машины для Mafia 2 или близкие к таковым. \r\nТакже мы создали для вас <a href=\"https://game-mafia2.ru/articles/green-cars.html\">default.mtl</a>, который решает проблему с зелеными машинами в Mafia 2. Вам больше не придется самостоятельно прописывать текстуры. \r\nОчень надеемся, что вам у нас нравится. "
+    },
+    {
+      "slug": "wardrobe",
+      "name": "Одежда и скины",
+      "description": "Гардероб"
+    },
+    {
+      "slug": "mafia2-de",
+      "name": "M2: Definitive Edition",
+      "description": ""
+    },
+    {
+      "slug": "mafia-definitive-edition",
+      "name": "Mafia: Definitive Edition",
+      "description": ""
+    },
+    {
+      "slug": "weapons",
+      "name": "Оружие",
+      "description": ""
+    }
+  ],
+  "tags": [
+    {
+      "slug": "cadillac",
+      "name": "Cadillac"
+    },
+    {
+      "slug": "ford",
+      "name": "Ford"
+    },
+    {
+      "slug": "bronetexnika",
+      "name": "Бронетехника"
+    },
+    {
+      "slug": "audi",
+      "name": "Audi"
+    },
+    {
+      "slug": "peugeot",
+      "name": "Peugeot"
+    },
+    {
+      "slug": "vaz",
+      "name": "ВАЗ - LADA"
+    },
+    {
+      "slug": "bus",
+      "name": "Автобусы"
+    },
+    {
+      "slug": "retro",
+      "name": "Ретро"
+    },
+    {
+      "slug": "gaz",
+      "name": "ГАЗ"
+    },
+    {
+      "slug": "azlk",
+      "name": "АЗЛК"
+    },
+    {
+      "slug": "bmw",
+      "name": "BMW"
+    },
+    {
+      "slug": "mercedes",
+      "name": "Mercedes"
+    },
+    {
+      "slug": "dodge",
+      "name": "Dodge"
+    },
+    {
+      "slug": "range-rover",
+      "name": "Range Rover"
+    },
+    {
+      "slug": "renault",
+      "name": "Renault"
+    },
+    {
+      "slug": "chevrolet",
+      "name": "Chevrolet"
+    },
+    {
+      "slug": "ferrari",
+      "name": "Ferrari"
+    },
+    {
+      "slug": "toyota",
+      "name": "Toyota"
+    },
+    {
+      "slug": "izh",
+      "name": "ИЖ"
+    },
+    {
+      "slug": "motocikly",
+      "name": "Мотоциклы"
+    },
+    {
+      "slug": "tatra",
+      "name": "Tatra"
+    },
+    {
+      "slug": "zil",
+      "name": "ЗИЛ"
+    },
+    {
+      "slug": "nissan",
+      "name": "Nissan"
+    },
+    {
+      "slug": "mitsubishi",
+      "name": "Mitsubishi"
+    },
+    {
+      "slug": "porsche",
+      "name": "Porsche"
+    },
+    {
+      "slug": "uaz",
+      "name": "УАЗ"
+    },
+    {
+      "slug": "volkswagen",
+      "name": "Volkswagen"
+    },
+    {
+      "slug": "lamborghini",
+      "name": "Lamborghini"
+    },
+    {
+      "slug": "bentley",
+      "name": "Bentley"
+    },
+    {
+      "slug": "scoda",
+      "name": "Scoda"
+    },
+    {
+      "slug": "subaru",
+      "name": "Subaru"
+    },
+    {
+      "slug": "citroen",
+      "name": "Citroen"
+    },
+    {
+      "slug": "rolls-royce",
+      "name": "Rolls-Royce"
+    },
+    {
+      "slug": "kia",
+      "name": "Kia"
+    },
+    {
+      "slug": "tesla",
+      "name": "Tesla"
+    },
+    {
+      "slug": "moskvich-412-azlk",
+      "name": "Москвич 412 (АЗЛК)"
+    },
+    {
+      "slug": "honda",
+      "name": "Honda"
+    },
+    {
+      "slug": "mafia-toolkit",
+      "name": "Mafia Toolkit"
+    },
+    {
+      "slug": "mafia-2",
+      "name": "mafia 2"
+    },
+    {
+      "slug": "luaz",
+      "name": "ЛуАЗ"
+    },
+    {
+      "slug": "jeep",
+      "name": "Jeep"
+    },
+    {
+      "slug": "pontiac",
+      "name": "Pontiac"
+    },
+    {
+      "slug": "plymouth",
+      "name": "Plymouth"
+    },
+    {
+      "slug": "hyundai",
+      "name": "Hyundai"
+    },
+    {
+      "slug": "mini",
+      "name": "Mini"
+    },
+    {
+      "slug": "fiat",
+      "name": "Fiat"
+    },
+    {
+      "slug": "mashiny-iz-mafii-3",
+      "name": "Машины из Мафии 3"
+    },
+    {
+      "slug": "mazda",
+      "name": "Mazda"
+    },
+    {
+      "slug": "chrysler",
+      "name": "Chrysler"
+    },
+    {
+      "slug": "raf",
+      "name": "РАФ"
+    },
+    {
+      "slug": "drugie-transportnye-sredstva",
+      "name": "Другие транспортные средства"
+    },
+    {
+      "slug": "suzuki",
+      "name": "Suzuki"
+    },
+    {
+      "slug": "ikco",
+      "name": "IKCO"
+    },
+    {
+      "slug": "mclaren",
+      "name": "McLaren"
+    },
+    {
+      "slug": "aston-martin",
+      "name": "Aston Martin"
+    },
+    {
+      "slug": "final-cut",
+      "name": "final cut"
+    },
+    {
+      "slug": "mafia-2-beta",
+      "name": "mafia 2 beta"
+    }
+  ]
+}

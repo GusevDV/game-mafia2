@@ -1,0 +1,25 @@
+---
+import Base from '@/layouts/Base.astro';
+---
+
+<Base title="Страница не найдена" noindex>
+  <section class="nf">
+    <h1>404</h1>
+    <p>Такой страницы нет. Возможно, материал переехал или был удалён.</p>
+    <p><a class="btn" href="/">На главную</a></p>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .nf h1 {
+    font-size: 5rem;
+    margin: 0;
+    color: var(--accent);
+    font-family: Georgia, serif;
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+import Header from '@/components/Header.astro';
+import Sidebar from '@/components/Sidebar.astro';
+import Footer from '@/components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '@/lib/site';
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Канонический путь без хоста, напр. `/cars/izh-21251.html`. */
+  canonicalPath?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  /** Выключает сайдбар рубрик (например, на главной, где рубрики — сам контент). */
+  sidebar?: boolean;
+}
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  canonicalPath,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+  sidebar = true,
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${SITE_TITLE}` : `${SITE_TITLE}: ${SITE_DESCRIPTION}`;
+const canonical = canonicalPath ? new URL(canonicalPath, Astro.site) : undefined;
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site) : undefined;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title ?? SITE_TITLE} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class:list={{ 'no-sidebar': !sidebar }}>
+    <Header />
+    <div class="container layout">
+      <Sidebar />
+      <main>
+        <slot />
+      </main>
+    </div>
+    <Footer />
+  </body>
+</html>

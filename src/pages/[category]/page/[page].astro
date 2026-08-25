@@ -1,0 +1,66 @@
+---
+import Base from '@/layouts/Base.astro';
+import PostCard from '@/components/PostCard.astro';
+import Pagination from '@/components/Pagination.astro';
+import {
+  getPosts,
+  getUsedCategories,
+  categoryName,
+  categoryUrl,
+  POSTS_PER_PAGE,
+} from '@/lib/site';
+
+export async function getStaticPaths() {
+  const categories = await getUsedCategories();
+  const posts = await getPosts();
+  return categories.flatMap((c) => {
+    const total = Math.ceil(
+      posts.filter((p) => p.data.categories.includes(c.slug)).length / POSTS_PER_PAGE
+    );
+    // страница 1 живёт на /<category>, здесь только 2+
+    return [...Array(Math.max(total - 1, 0)).keys()].map((i) => ({
+      params: { category: c.slug, page: String(i + 2) },
+    }));
+  });
+}
+
+const { category, page } = Astro.params;
+const current = Number(page);
+const posts = (await getPosts()).filter((p) => p.data.categories.includes(category));
+const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+const pagePosts = posts.slice((current - 1) * POSTS_PER_PAGE, current * POSTS_PER_PAGE);
+const name = categoryName(category);
+---
+
+<Base
+  title={`${name} — страница ${current}`}
+  description={`${name} для Mafia 2, страница ${current} из ${totalPages}`}
+  canonicalPath={categoryUrl(category, current)}
+  noindex
+>
+  <h1>
+    <a href={categoryUrl(category)}>{name}</a>
+    <span class="muted count">стр. {current} из {totalPages}</span>
+  </h1>
+  <div class="grid">
+    {pagePosts.map((post) => <PostCard post={post} />)}
+  </div>
+  <Pagination current={current} total={totalPages} urlFor={(p) => categoryUrl(category, p)} />
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+
+  .count {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  h1 a {
+    color: var(--text);
+  }
+</style>

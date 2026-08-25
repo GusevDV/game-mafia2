@@ -1,0 +1,30 @@
+[
+  {
+    "id": 86,
+    "parentId": null,
+    "author": "Матвей Ивайкин",
+    "date": "2011-11-21T14:33:06+03:00",
+    "text": "как снять шляпу от костюма?"
+  },
+  {
+    "id": 395,
+    "parentId": null,
+    "author": "Марина Маргарит",
+    "date": "2014-07-10T12:17:21+03:00",
+    "text": "как установить это я не понимаю сколько пробовала и не знаю что делать ?"
+  },
+  {
+    "id": 3268,
+    "parentId": null,
+    "author": "Глебан",
+    "date": "2019-10-28T16:48:38+03:00",
+    "text": "Прикольно, всем советую!"
+  },
+  {
+    "id": 4109,
+    "parentId": 86,
+    "author": "Hesekiel Asido Martin",
+    "date": "2021-01-30T10:04:06+03:00",
+    "text": "just go to Mafia 2 emblem arround your House,\r\nAnd then click Mafia 2, klick Next until you see in the top any (R) logo,\r\nand click the logo."
+  }
+]

@@ -1,0 +1,88 @@
+---
+import { categoryName, categoryUrl, formatDate, postUrl, type Post } from '@/lib/site';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, date, cover, categories, views } = post.data;
+---
+
+<article class="card">
+  <a class="cover" href={postUrl(post)} aria-hidden="true" tabindex="-1">
+    {cover ? (
+      <img src={cover} alt="" loading="lazy" decoding="async" />
+    ) : (
+      <span class="cover-placeholder">M</span>
+    )}
+  </a>
+  <div class="body">
+    <a class="badge" href={categoryUrl(categories[0])}>{categoryName(categories[0])}</a>
+    <h3><a href={postUrl(post)}>{title}</a></h3>
+    <p class="muted meta">
+      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+      {views ? <span> · {views.toLocaleString('ru-RU')} просм.</span> : null}
+    </p>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+  }
+
+  .cover {
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-overlay);
+  }
+
+  .cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cover-placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-family: Georgia, serif;
+    font-size: 3rem;
+    color: var(--border);
+  }
+
+  .body {
+    padding: 0.9rem 1rem 1rem;
+  }
+
+  h3 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.05rem;
+  }
+
+  h3 a {
+    color: var(--text);
+  }
+
+  h3 a:hover {
+    color: var(--accent);
+  }
+
+  .meta {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+</style>

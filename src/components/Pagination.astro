@@ -1,0 +1,73 @@
+---
+interface Props {
+  current: number;
+  total: number;
+  /** Функция страницы → URL уже применена: передаём готовые ссылки. */
+  urlFor: (page: number) => string;
+}
+
+const { current, total, urlFor } = Astro.props;
+
+const pages = [...Array(total).keys()]
+  .map((i) => i + 1)
+  .filter((p) => p === 1 || p === total || Math.abs(p - current) <= 2);
+const withGaps: (number | null)[] = [];
+for (const [i, p] of pages.entries()) {
+  if (i > 0 && p - pages[i - 1] > 1) withGaps.push(null);
+  withGaps.push(p);
+}
+---
+
+{total > 1 && (
+  <nav class="pagination" aria-label="Страницы">
+    {current > 1 && <a href={urlFor(current - 1)} rel="prev">←</a>}
+    {withGaps.map((p) =>
+      p === null ? (
+        <span class="gap">…</span>
+      ) : p === current ? (
+        <span class="current" aria-current="page">{p}</span>
+      ) : (
+        <a href={urlFor(p)}>{p}</a>
+      )
+    )}
+    {current < total && <a href={urlFor(current + 1)} rel="next">→</a>}
+  </nav>
+)}
+
+<style>
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 2rem 0 0.5rem;
+  }
+
+  .pagination a,
+  .pagination .current,
+  .pagination .gap {
+    min-width: 2.2rem;
+    padding: 0.3rem 0.6rem;
+    text-align: center;
+    border-radius: var(--radius);
+  }
+
+  .pagination a {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+  }
+
+  .pagination a:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  .pagination .current {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 700;
+  }
+
+  .pagination .gap {
+    color: var(--text-muted);
+  }
+</style>

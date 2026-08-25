@@ -1,0 +1,96 @@
+---
+import { SITE_TITLE } from '@/lib/site';
+import Search from './Search.tsx';
+---
+
+<header>
+  <div class="container top">
+    <button class="burger" aria-label="Рубрики" aria-expanded="false" aria-controls="sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href="/">
+      <span class="logo-mark">M</span>
+      <span>{SITE_TITLE}</span>
+    </a>
+    <Search client:idle />
+  </div>
+</header>
+
+<script>
+  const burger = document.querySelector('.burger');
+  burger?.addEventListener('click', () => {
+    const open = document.body.classList.toggle('nav-open');
+    burger.setAttribute('aria-expanded', String(open));
+  });
+</script>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.9rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-right: auto;
+    white-space: nowrap;
+  }
+
+  .logo:hover {
+    text-decoration: none;
+    color: var(--accent);
+  }
+
+  .logo-mark {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 6px;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-family: Georgia, serif;
+  }
+
+  .burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.28rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0.45rem;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .burger span {
+    display: block;
+    height: 2px;
+    background: var(--text);
+    border-radius: 1px;
+  }
+
+  @media (max-width: 60rem) {
+    .burger {
+      display: flex;
+    }
+  }
+</style>

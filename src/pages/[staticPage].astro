@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import { editUrl } from '@/lib/site';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((page) => ({
+    params: { staticPage: page.data.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<Base title={page.data.title} canonicalPath={`/${page.data.slug}`}>
+  <article>
+    <h1>{page.data.title}</h1>
+    <div class="prose">
+      <Content />
+    </div>
+    <p class="edit-link muted">
+      Нашли ошибку или хотите дополнить?{' '}
+      <a href={editUrl(`pages/${page.id}.md`)} rel="noopener">Предложите правку на GitHub</a>
+    </p>
+  </article>
+</Base>
+
+<style>
+  .edit-link {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+    max-width: 46rem;
+  }
+</style>

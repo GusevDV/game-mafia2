@@ -1,0 +1,23 @@
+[
+  {
+    "id": 2080,
+    "parentId": null,
+    "author": "Рамазан",
+    "date": "2017-12-22T20:35:17+03:00",
+    "text": "Скажи пожалуйста, а есть мод на УАЗ ?"
+  },
+  {
+    "id": 2081,
+    "parentId": 2080,
+    "author": "Game Mafia 2",
+    "date": "2017-12-22T20:47:18+03:00",
+    "text": "Есть в моде <a href=\"https://game-mafia2.ru/mods/rossijskie-mashiny.html\" rel=\"noopener\" target=\"_blank\">Русские машины</a>. В ближайшее время постараемся выложить отдельно."
+  },
+  {
+    "id": 2092,
+    "parentId": null,
+    "author": "Рамазан",
+    "date": "2017-12-23T14:55:05+03:00",
+    "text": "хорошо"
+  }
+]

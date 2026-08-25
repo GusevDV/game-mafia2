@@ -1,0 +1,197 @@
+/* ---------- дизайн-токены ---------- */
+:root {
+  --bg: #16130f;
+  --bg-raised: #201c16;
+  --bg-overlay: #2a251d;
+  --border: #383225;
+  --text: #ece5d8;
+  --text-muted: #a89e8c;
+  --accent: #e0a933;
+  --accent-strong: #f4c151;
+  --accent-contrast: #1c1710;
+  --danger: #d06045;
+  --radius: 8px;
+  --content-width: 72rem;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ---------- база ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* контент растягивается, прижимая футер книзу на коротких страницах;
+   width: 100% обязателен — во flex-контейнере auto-маржины .container
+   иначе отключают stretch, и колонка сжимается/расползается по контенту */
+body > .layout {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3, h4 {
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.container {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/* видно скринридерам, скрыто визуально */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* сайдбар слева, контент справа; на мобильных — одна колонка */
+.layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding-top: 1.5rem;
+}
+
+.layout > main {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 60rem) {
+  .layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+}
+
+/* ---------- типографика статьи ---------- */
+.prose {
+  max-width: 46rem;
+  overflow-wrap: break-word; /* длинные пути и URL в старых статьях */
+}
+
+.prose img {
+  border-radius: var(--radius);
+}
+
+.prose ul, .prose ol {
+  padding-left: 1.4rem;
+}
+
+.prose blockquote {
+  margin: 1rem 0;
+  padding: 0.25rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-raised);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.prose table {
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th, .prose td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.7rem;
+}
+
+.video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 1.25rem 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+}
+
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- утилиты ---------- */
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+a.badge:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 700;
+  border: 0;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--accent-strong);
+  color: var(--accent-contrast);
+  text-decoration: none;
+}

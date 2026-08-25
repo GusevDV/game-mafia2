@@ -1,0 +1,75 @@
+---
+import Base from '@/layouts/Base.astro';
+import PostCard from '@/components/PostCard.astro';
+import { getPosts, getUsedCategories, categoryUrl } from '@/lib/site';
+
+const categories = await getUsedCategories();
+const latest = (await getPosts()).slice(0, 24);
+---
+
+<Base canonicalPath="/" sidebar={false}>
+  <section class="rubrics">
+    <h1>Рубрики</h1>
+    <div class="cats">
+      {categories.map((c) => (
+        <a class="cat" href={categoryUrl(c.slug)}>
+          <span>{c.name}</span>
+          <span class="muted">{c.count}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="visually-hidden">Свежие материалы</h2>
+    <div class="grid">
+      {latest.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  h1 {
+    margin-top: 0;
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+  }
+
+  .rubrics {
+    margin-bottom: 2rem;
+  }
+
+  /* на мобильных рубрики уже доступны из бургер-меню */
+  @media (max-width: 60rem) {
+    .rubrics {
+      display: none;
+    }
+  }
+
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: 0.6rem;
+  }
+
+  .cat {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+  }
+
+  .cat:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+</style>

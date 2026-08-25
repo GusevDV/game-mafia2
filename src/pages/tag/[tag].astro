@@ -1,0 +1,35 @@
+---
+import Base from '@/layouts/Base.astro';
+import PostCard from '@/components/PostCard.astro';
+import { getPosts, tagName, tagUrl } from '@/lib/site';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const tags = new Set(posts.flatMap((p) => p.data.tags));
+  return [...tags].map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const posts = (await getPosts()).filter((p) => p.data.tags.includes(tag));
+const name = tagName(tag);
+---
+
+<Base title={`Тег: ${name}`} description={`Материалы по тегу «${name}» (${posts.length})`} canonicalPath={tagUrl(tag)}>
+  <h1>#{name} <span class="muted count">{posts.length}</span></h1>
+  <div class="grid">
+    {posts.map((post) => <PostCard post={post} />)}
+  </div>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+
+  .count {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+</style>

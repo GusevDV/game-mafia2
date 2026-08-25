@@ -1,0 +1,7 @@
+backup/
+node_modules/
+dist/
+.DS_Store
+.astro/
+scripts/wp.sqlite
+private/
