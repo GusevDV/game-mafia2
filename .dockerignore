@@ -1,0 +1,14 @@
+# Only what the build needs goes into the context (see Dockerfile).
+.git
+.github
+.claude
+.astro
+.DS_Store
+node_modules
+dist
+
+# Never send these to the Docker daemon
+backup
+private
+scripts
+README.md

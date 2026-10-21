@@ -2,7 +2,7 @@ FROM node:24-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-COPY astro.config.mjs ./
+COPY astro.config.mjs tsconfig.json ./
 COPY src ./src
 COPY public ./public
 RUN npm run build

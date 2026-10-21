@@ -69,6 +69,39 @@ URL-схема унаследована от прежней версии сай�
 
 ## Деплой
 
-Пуш в `main` → GitHub Actions собирает Docker-образ (nginx + статика),
-публикует в GHCR и перезапускает контейнер на сервере по SSH
-(секреты `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`).
+Сайт собирается в Docker-образ (nginx + статика). Workflow
+[`.github/workflows/docker.yml`](.github/workflows/docker.yml) публикует его в
+GitHub Container Registry, сервер забирает готовый образ сам.
+
+| Событие                | Что происходит                                         |
+|------------------------|--------------------------------------------------------|
+| push в `main`          | образ `ghcr.io/gusevdv/game-mafia2:latest` и `:sha-<коммит>` |
+| тег `v1.2.3`           | дополнительно теги `:1.2.3` и `:1.2`                   |
+| pull request           | только проверка сборки, образ не публикуется           |
+
+Образ собирается под `linux/amd64`. Для ARM-сервера добавьте `linux/arm64`
+в `platforms` в workflow.
+
+### На сервере
+
+Если пакет приватный, один раз войдите в реестр (токен с правом `read:packages`):
+
+```bash
+echo "$GHCR_TOKEN" | docker login ghcr.io -u GusevDV --password-stdin
+```
+
+Скачать и запустить:
+
+```bash
+docker pull ghcr.io/gusevdv/game-mafia2:latest
+docker rm -f game-mafia2
+docker run -d --name game-mafia2 --restart unless-stopped -p 8080:80 \
+  ghcr.io/gusevdv/game-mafia2:latest
+```
+
+Контейнер слушает порт 80 и рассчитан на работу за реверс-прокси с TLS
+(редиректы относительные, схему `https` не ломают). Для отката укажите
+конкретный тег `:sha-<коммит>` вместо `:latest`.
+
+Пакет по умолчанию приватный: чтобы сервер мог скачивать образ без токена,
+откройте Packages → `game-mafia2` → Package settings → Change visibility → Public.
