@@ -82,21 +82,6 @@ GitHub Container Registry, сервер забирает готовый обра
 Образ собирается под `linux/amd64`. Для ARM-сервера добавьте `linux/arm64`
 в `platforms` в workflow.
 
-### На сервере
-
-Пакет публичный, `docker login` не нужен. Скачать и запустить:
-
-```bash
-docker pull ghcr.io/gusevdv/game-mafia2:latest
-docker rm -f game-mafia2
-docker run -d --name game-mafia2 --restart unless-stopped \
-  -p 127.0.0.1:8080:80 ghcr.io/gusevdv/game-mafia2:latest
-```
-
-Порт публикуется только на loopback (`127.0.0.1`): Docker обходит `ufw`, и
-`-p 8080:80` открыл бы сайт наружу по http мимо nginx и TLS. Для отката укажите
-конкретный тег `:sha-<коммит>` вместо `:latest`.
-
 ### nginx на хосте и сертификат
 
 Конфиг [`deploy/host-nginx.conf`](deploy/host-nginx.conf) проксирует
