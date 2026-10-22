@@ -6,7 +6,7 @@ export const SITE_DESCRIPTION =
   'Все для игры Mafia 2. Скачать файлы, программы, моды, DLC';
 export const POSTS_PER_PAGE = 12;
 // Если репозиторий живёт по другому адресу — поменять только эту строку.
-export const REPO_URL = 'https://github.com/dmivlagus/game-mafia2';
+export const REPO_URL = 'https://github.com/GusevDV/game-mafia2';
 
 export type Post = CollectionEntry<'posts'>;
 
