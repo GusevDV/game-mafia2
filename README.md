@@ -87,12 +87,12 @@ GitHub Container Registry, сервер забирает готовый обра
 Конфиг [`deploy/host-nginx.conf`](deploy/host-nginx.conf) проксирует
 `game-mafia2.ru` на контейнер, а `www` редиректит на основной домен.
 Перед выпуском сертификата DNS-записи A/AAAA обоих имён должны указывать на
-сервер, а порты 80 и 443 быть открыты.
+сервер, а порты 80 и 443 быть открыты. Файл кладётся в `conf.d` и должен
+называться `*.conf`: остальные имена nginx не подключает.
 
 ```bash
 sudo apt install nginx certbot python3-certbot-nginx
-sudo cp deploy/host-nginx.conf /etc/nginx/sites-available/game-mafia2.ru
-sudo ln -s /etc/nginx/sites-available/game-mafia2.ru /etc/nginx/sites-enabled/
+sudo cp deploy/host-nginx.conf /etc/nginx/conf.d/game-mafia2.conf
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
