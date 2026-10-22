@@ -84,24 +84,41 @@ GitHub Container Registry, сервер забирает готовый обра
 
 ### На сервере
 
-Если пакет приватный, один раз войдите в реестр (токен с правом `read:packages`):
-
-```bash
-echo "$GHCR_TOKEN" | docker login ghcr.io -u GusevDV --password-stdin
-```
-
-Скачать и запустить:
+Пакет публичный, `docker login` не нужен. Скачать и запустить:
 
 ```bash
 docker pull ghcr.io/gusevdv/game-mafia2:latest
 docker rm -f game-mafia2
-docker run -d --name game-mafia2 --restart unless-stopped -p 8080:80 \
-  ghcr.io/gusevdv/game-mafia2:latest
+docker run -d --name game-mafia2 --restart unless-stopped \
+  -p 127.0.0.1:8080:80 ghcr.io/gusevdv/game-mafia2:latest
 ```
 
-Контейнер слушает порт 80 и рассчитан на работу за реверс-прокси с TLS
-(редиректы относительные, схему `https` не ломают). Для отката укажите
+Порт публикуется только на loopback (`127.0.0.1`): Docker обходит `ufw`, и
+`-p 8080:80` открыл бы сайт наружу по http мимо nginx и TLS. Для отката укажите
 конкретный тег `:sha-<коммит>` вместо `:latest`.
 
-Пакет по умолчанию приватный: чтобы сервер мог скачивать образ без токена,
-откройте Packages → `game-mafia2` → Package settings → Change visibility → Public.
+### nginx на хосте и сертификат
+
+Конфиг [`deploy/host-nginx.conf`](deploy/host-nginx.conf) проксирует
+`game-mafia2.ru` на контейнер, а `www` редиректит на основной домен.
+Перед выпуском сертификата DNS-записи A/AAAA обоих имён должны указывать на
+сервер, а порты 80 и 443 быть открыты.
+
+```bash
+sudo apt install nginx certbot python3-certbot-nginx
+sudo cp deploy/host-nginx.conf /etc/nginx/sites-available/game-mafia2.ru
+sudo ln -s /etc/nginx/sites-available/game-mafia2.ru /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Сначала пробный запуск на тестовом сервере Let's Encrypt (лимиты не тратятся),
+затем настоящий выпуск:
+
+```bash
+sudo certbot --nginx -d game-mafia2.ru -d www.game-mafia2.ru --dry-run
+sudo certbot --nginx -d game-mafia2.ru -d www.game-mafia2.ru --redirect
+```
+
+certbot сам допишет в конфиг блоки `listen 443 ssl`, пути к сертификату и
+редирект http → https. Автопродление ставится вместе с пакетом, проверить его
+можно командой `sudo certbot renew --dry-run`.
