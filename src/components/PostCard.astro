@@ -10,13 +10,13 @@ const { title, date, cover, categories, views } = post.data;
 ---
 
 <article class="card">
-  <a class="cover" href={postUrl(post)} aria-hidden="true" tabindex="-1">
+  <div class="cover">
     {cover ? (
       <img src={cover} alt="" loading="lazy" decoding="async" />
     ) : (
       <span class="cover-placeholder">M</span>
     )}
-  </a>
+  </div>
   <div class="body">
     <a class="badge" href={categoryUrl(categories[0])}>{categoryName(categories[0])}</a>
     <h3><a href={postUrl(post)}>{title}</a></h3>
@@ -29,6 +29,7 @@ const { title, date, cover, categories, views } = post.data;
 
 <style>
   .card {
+    position: relative; /* anchor for the stretched title link below */
     display: flex;
     flex-direction: column;
     background: var(--bg-raised);
@@ -40,6 +41,12 @@ const { title, date, cover, categories, views } = post.data;
 
   .card:hover {
     border-color: var(--accent);
+  }
+
+  /* keyboard focus is shown on the whole card, not just around the title text */
+  .card:has(h3 a:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
   .cover {
@@ -77,8 +84,26 @@ const { title, date, cover, categories, views } = post.data;
     color: var(--text);
   }
 
-  h3 a:hover {
+  .card:hover h3 a {
     color: var(--accent);
+  }
+
+  h3 a:focus-visible {
+    outline: none;
+  }
+
+  /* Stretched link: the title link covers the whole card, so the cover, the date
+     and the padding are clickable too. Keep exactly one link to the post per card. */
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  /* the category badge stays a separate link above the overlay */
+  .badge {
+    position: relative;
+    z-index: 1;
   }
 
   .meta {
