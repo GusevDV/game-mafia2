@@ -25,7 +25,7 @@ const name = categoryName(category);
 <Base title={name} description={`${name} для Mafia 2 — все материалы рубрики (${posts.length})`} canonicalPath={categoryUrl(category)}>
   <h1>{name} <span class="muted count">{posts.length}</span></h1>
   <div class="grid">
-    {pagePosts.map((post) => <PostCard post={post} />)}
+    {pagePosts.map((post, i) => <PostCard post={post} priority={i < 2} />)}
   </div>
   <Pagination current={1} total={totalPages} urlFor={(p) => categoryUrl(category, p)} />
 </Base>

@@ -43,7 +43,7 @@ const name = categoryName(category);
     <span class="muted count">стр. {current} из {totalPages}</span>
   </h1>
   <div class="grid">
-    {pagePosts.map((post) => <PostCard post={post} />)}
+    {pagePosts.map((post, i) => <PostCard post={post} priority={i < 2} />)}
   </div>
   <Pagination current={current} total={totalPages} urlFor={(p) => categoryUrl(category, p)} />
 </Base>

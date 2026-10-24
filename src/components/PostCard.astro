@@ -1,18 +1,31 @@
 ---
 import { categoryName, categoryUrl, formatDate, postUrl, type Post } from '@/lib/site';
+import { thumbSrcset, thumbUrl } from '@/lib/thumbs';
 
 interface Props {
   post: Post;
+  /** Картинка в первом экране: грузится сразу и с высоким приоритетом (LCP). */
+  priority?: boolean;
 }
 
-const { post } = Astro.props;
+const { post, priority = false } = Astro.props;
 const { title, date, cover, categories, views } = post.data;
 ---
 
 <article class="card">
   <div class="cover">
     {cover ? (
-      <img src={cover} alt="" loading="lazy" decoding="async" />
+      <img
+        src={thumbUrl(cover, 480)}
+        srcset={thumbSrcset(cover)}
+        sizes="(max-width: 40rem) calc(100vw - 2rem), 340px"
+        width="480"
+        height="270"
+        alt=""
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : undefined}
+        decoding="async"
+      />
     ) : (
       <span class="cover-placeholder">M</span>
     )}

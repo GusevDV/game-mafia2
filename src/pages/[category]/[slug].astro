@@ -13,6 +13,7 @@ import {
   editUrl,
   SITE_TITLE,
 } from '@/lib/site';
+import { thumbSrcset, thumbUrl } from '@/lib/thumbs';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -91,7 +92,7 @@ const jsonLd = {
         <div class="shots">
           {screenshots.map((src) => (
             <a href={src}>
-              <img src={src} alt={`Скриншот: ${title}`} loading="lazy" decoding="async" />
+              <img src={thumbUrl(src, 480)} srcset={thumbSrcset(src)} sizes="(max-width: 40rem) calc(100vw - 2rem), 340px" alt={`Скриншот: ${title}`} loading="lazy" decoding="async" />
             </a>
           ))}
         </div>

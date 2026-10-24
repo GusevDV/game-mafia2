@@ -23,7 +23,7 @@ const latest = (await getPosts()).slice(0, 24);
   <section>
     <h2 class="visually-hidden">Свежие материалы</h2>
     <div class="grid">
-      {latest.map((post) => <PostCard post={post} />)}
+      {latest.map((post, i) => <PostCard post={post} priority={i < 2} />)}
     </div>
   </section>
 </Base>
