@@ -81,29 +81,3 @@ GitHub Container Registry, сервер забирает готовый обра
 
 Образ собирается под `linux/amd64`. Для ARM-сервера добавьте `linux/arm64`
 в `platforms` в workflow.
-
-### nginx на хосте и сертификат
-
-Конфиг [`deploy/host-nginx.conf`](deploy/host-nginx.conf) проксирует
-`game-mafia2.ru` на контейнер, а `www` редиректит на основной домен.
-Перед выпуском сертификата DNS-записи A/AAAA обоих имён должны указывать на
-сервер, а порты 80 и 443 быть открыты. Файл кладётся в `conf.d` и должен
-называться `*.conf`: остальные имена nginx не подключает.
-
-```bash
-sudo apt install nginx certbot python3-certbot-nginx
-sudo cp deploy/host-nginx.conf /etc/nginx/conf.d/game-mafia2.conf
-sudo nginx -t && sudo systemctl reload nginx
-```
-
-Сначала пробный запуск на тестовом сервере Let's Encrypt (лимиты не тратятся),
-затем настоящий выпуск:
-
-```bash
-sudo certbot --nginx -d game-mafia2.ru -d www.game-mafia2.ru --dry-run
-sudo certbot --nginx -d game-mafia2.ru -d www.game-mafia2.ru --redirect
-```
-
-certbot сам допишет в конфиг блоки `listen 443 ssl`, пути к сертификату и
-редирект http → https. Автопродление ставится вместе с пакетом, проверить его
-можно командой `sudo certbot renew --dry-run`.
