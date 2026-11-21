@@ -14,7 +14,10 @@ import Search from './Search.tsx';
     </a>
     <Search client:idle />
     <a class="add-mod" href={ADD_MOD_URL} rel="noopener" title="Добавить мод на сайт">
-      <span aria-hidden="true">+</span><span class="add-mod-label">Добавить мод</span>
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+      </svg>
+      <span class="add-mod-label">Добавить мод</span>
     </a>
   </div>
 </header>
@@ -75,9 +78,9 @@ import Search from './Search.tsx';
     flex-direction: column;
     justify-content: center;
     gap: 0.28rem;
-    width: 2.4rem;
-    height: 2.4rem;
-    padding: 0.45rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0.4rem;
     background: none;
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -91,41 +94,54 @@ import Search from './Search.tsx';
     border-radius: 1px;
   }
 
+  /* высота — как у поля поиска (0.95rem текста + отступы 0.5rem + рамка) */
   .add-mod {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
-    min-width: 2.4rem;
-    height: 2.4rem;
-    padding: 0 0.9rem;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    height: 2.2rem;
+    padding: 0 0.95rem;
     border-radius: var(--radius);
     background: var(--accent);
     color: var(--accent-contrast);
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
     white-space: nowrap;
-    flex-shrink: 0;
   }
 
   .add-mod:hover {
+    background: var(--accent-strong);
+    color: var(--accent-contrast);
     text-decoration: none;
-    filter: brightness(1.1);
   }
 
-  .add-mod span[aria-hidden] {
-    font-size: 1.25rem;
-    line-height: 1;
+  .add-mod:focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 2px;
+  }
+
+  .add-mod svg {
+    flex-shrink: 0;
   }
 
   @media (max-width: 60rem) {
     .burger {
       display: flex;
+      flex-shrink: 0;
     }
   }
 
-  /* на телефоне остаётся только «+», подпись видна лишь скринридерам */
+  /* на телефоне остаётся квадрат с «+», подпись видна лишь скринридерам */
   @media (max-width: 40rem) {
+    .top {
+      gap: 0.6rem;
+    }
+
     .add-mod {
+      width: 2.2rem;
       padding: 0;
     }
 
