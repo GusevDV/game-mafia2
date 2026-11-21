@@ -51,6 +51,18 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site) : undefined;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
     <meta name="generator" content={Astro.generator} />
+    {import.meta.env.PROD && (
+      <Fragment>
+        <!-- Google tag (gtag.js) -->
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-4LVJE98BVK"></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-4LVJE98BVK');
+        </script>
+      </Fragment>
+    )}
   </head>
   <body class:list={{ 'no-sidebar': !sidebar }}>
     <Header />
