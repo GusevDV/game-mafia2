@@ -23,5 +23,4 @@ instruction: "1.  Скопировать файлы из архива в пап�
 
 ![](/uploads/2023/08/403-1685109521-510432634-1024x576.webp)
 
-**Заменить/Replace: Smith Deluxe Station Wagon  
-**
+**Заменить/Replace: Smith Deluxe Station Wagon**
