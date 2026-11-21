@@ -50,6 +50,9 @@ export async function getUsedCategories() {
     .sort((a, b) => b.count - a.count);
 }
 
+/** Форма «Добавить мод» (.github/ISSUE_TEMPLATE/add-mod.yml). */
+export const ADD_MOD_URL = `${REPO_URL}/issues/new?template=add-mod.yml`;
+
 /** Ссылка «предложить правку» — на редактирование исходного файла в GitHub. */
 export function editUrl(contentPath: string): string {
   return `${REPO_URL}/edit/main/src/content/${contentPath}`;

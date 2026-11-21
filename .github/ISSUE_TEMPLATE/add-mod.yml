@@ -1,0 +1,104 @@
+# Форма «Добавить мод». Кнопка на сайте ведёт сюда:
+#   https://github.com/GusevDV/game-mafia2/issues/new?template=add-mod.yml
+#
+# Заявку разбирает .github/workflows/mod-submission.yml → scripts/mod-from-issue.mjs.
+# Скрипт ищет поля по заголовкам (label), поэтому при переименовании поля здесь
+# поправьте и FIELDS в скрипте. Названия рубрик совпадают с taxonomies.json.
+name: Добавить мод
+description: Предложить мод, машину, скин или программу для сайта game-mafia2.ru
+title: "[Мод]: "
+labels: [new-mod]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Спасибо, что делитесь! Заполните форму — по ней автоматически подготовится
+        страница для сайта. После проверки модератором мод появится на game-mafia2.ru.
+
+        Поля со звёздочкой обязательны. Ошиблись — просто отредактируйте заявку,
+        черновик обновится сам.
+
+  - type: input
+    attributes:
+      label: Название
+      description: Как мод будет называться на сайте.
+      placeholder: Ford Thunderbird 1955
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Рубрика
+      options:
+        - Моды
+        - Машины
+        - Одежда и скины
+        - Оружие
+        - Программы
+        - Файлы
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Версия игры
+      options:
+        - Mafia II (классическая)
+        - Mafia II Definitive Edition
+        - Обе версии
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Автор мода
+      description: Ник автора. Если это вы — укажите свой.
+      placeholder: Agens
+
+  - type: textarea
+    attributes:
+      label: Описание
+      description: |
+        Что делает мод, что заменяет, особенности. Можно использовать Markdown.
+        Первое предложение попадёт в описание для поисковиков.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Ссылки на скачивание
+      description: По одной ссылке в строке (Яндекс Диск, Mail.ru Облако, MEGA, Google Drive…).
+      placeholder: |
+        https://disk.yandex.ru/d/...
+        https://cloud.mail.ru/public/...
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Установка
+      description: Пошаговая инструкция. Можно использовать Markdown.
+      placeholder: |
+        1. Скопировать папку pc из архива в папку с игрой, согласиться на замену.
+        2. Играть.
+
+  - type: textarea
+    attributes:
+      label: Скриншоты
+      description: |
+        Перетащите сюда картинки (или вставьте из буфера, Ctrl+V). Первая станет обложкой.
+        Подойдут JPG, PNG и WebP до 15 МБ.
+
+  - type: input
+    attributes:
+      label: Видео на YouTube
+      description: Необязательно. Ссылка встроится в страницу как плеер.
+      placeholder: https://www.youtube.com/watch?v=...
+
+  - type: checkboxes
+    attributes:
+      label: Права на публикацию
+      options:
+        - label: Я автор мода или автор разрешил его распространять
+          required: true

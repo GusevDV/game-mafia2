@@ -1,0 +1,94 @@
+name: Mod submission
+
+# Заявка «Добавить мод» (issue с меткой new-mod) → pull request с готовым постом.
+#   issue открыт / отредактирован → scripts/mod-from-issue.mjs пишет пост и скриншоты,
+#   сайт собирается для проверки, ветка mod/issue-<N> force-пушится, PR создаётся
+#   или обновляется, автору заявки уходит комментарий.
+#   Снять метку new-mod = перестать пересобирать PR (например, чтобы править его руками).
+#   Метку new-mod нужно один раз создать в репозитории, иначе форма её не поставит.
+#
+# Нужно в настройках репозитория: Settings → Actions → General → Workflow permissions →
+# «Allow GitHub Actions to create and approve pull requests».
+#
+# PR, созданные через GITHUB_TOKEN, не запускают другие workflow (docker.yml на
+# pull_request), поэтому проверочная сборка делается здесь же.
+
+on:
+  issues:
+    # без labeled: метка из шаблона прилетает отдельным событием вместе с opened,
+    # и заявка собиралась бы дважды. Перезапуск — любая правка заявки.
+    types: [opened, edited]
+
+concurrency:
+  group: mod-submission-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  draft:
+    if: >-
+      github.event.issue.state == 'open' &&
+      contains(github.event.issue.labels.*.name, 'new-mod')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ISSUE: ${{ github.event.issue.number }}
+      BRANCH: mod/issue-${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Тело заявки скрипт читает из $GITHUB_EVENT_PATH сам: недоверенный текст
+      # не подставляется ни в одну команду этого файла.
+      - name: Build post from issue
+        id: post
+        run: node scripts/mod-from-issue.mjs "$GITHUB_EVENT_PATH"
+
+      - name: Report form errors
+        if: steps.post.outputs.ok == 'false'
+        run: gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/mod-comment.md"
+
+      - name: Check that the site builds
+        if: steps.post.outputs.ok == 'true'
+        run: npm run build
+
+      - name: Open or update pull request
+        if: steps.post.outputs.ok == 'true'
+        env:
+          TITLE: ${{ steps.post.outputs.title }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add src/content/posts public/uploads
+          git commit -q -F - <<EOF
+          Add mod: $TITLE
+
+          From issue #$ISSUE
+          EOF
+          git push --force origin "$BRANCH"
+
+          pr=$(gh pr list --head "$BRANCH" --state open --json url --jq '.[0].url // empty')
+          if [ -n "$pr" ]; then
+            gh pr edit "$pr" --title "Мод: $TITLE" --body-file "$RUNNER_TEMP/mod-pr-body.md"
+            echo "Черновик обновлён: $pr" >> "$RUNNER_TEMP/mod-comment.md"
+          else
+            pr=$(gh pr create --base main --head "$BRANCH" --title "Мод: $TITLE" --body-file "$RUNNER_TEMP/mod-pr-body.md")
+            echo "Черновик: $pr" >> "$RUNNER_TEMP/mod-comment.md"
+          fi
+          gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/mod-comment.md"
+
+      - name: Report failure
+        if: failure()
+        run: |
+          gh issue comment "$ISSUE" --body "Что-то пошло не так при подготовке страницы мода — модератор посмотрит. Лог: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

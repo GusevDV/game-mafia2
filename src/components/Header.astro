@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE } from '@/lib/site';
+import { SITE_TITLE, ADD_MOD_URL } from '@/lib/site';
 import Search from './Search.tsx';
 ---
 
@@ -13,6 +13,9 @@ import Search from './Search.tsx';
       <span>{SITE_TITLE}</span>
     </a>
     <Search client:idle />
+    <a class="add-mod" href={ADD_MOD_URL} rel="noopener" title="Добавить мод на сайт">
+      <span aria-hidden="true">+</span><span class="add-mod-label">Добавить мод</span>
+    </a>
   </div>
 </header>
 
@@ -88,9 +91,51 @@ import Search from './Search.tsx';
     border-radius: 1px;
   }
 
+  .add-mod {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 2.4rem;
+    height: 2.4rem;
+    padding: 0 0.9rem;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .add-mod:hover {
+    text-decoration: none;
+    filter: brightness(1.1);
+  }
+
+  .add-mod span[aria-hidden] {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
   @media (max-width: 60rem) {
     .burger {
       display: flex;
+    }
+  }
+
+  /* на телефоне остаётся только «+», подпись видна лишь скринридерам */
+  @media (max-width: 40rem) {
+    .add-mod {
+      padding: 0;
+    }
+
+    .add-mod-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
   }
 </style>

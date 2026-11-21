@@ -40,6 +40,28 @@ instruction: |                     # блок «Установка» (Markdown)
 превращается во встроенный плеер.
 ```
 
+## Как добавить мод без возни с Git
+
+Кнопка «Добавить мод» в шапке сайта открывает форму на GitHub
+([`add-mod.yml`](.github/ISSUE_TEMPLATE/add-mod.yml)): название, рубрика,
+описание, ссылки, инструкция, скриншоты перетаскиванием. Нужен только аккаунт GitHub.
+
+Workflow [`mod-submission.yml`](.github/workflows/mod-submission.yml) превращает
+заявку в pull request: скрипт [`scripts/mod-from-issue.mjs`](scripts/mod-from-issue.mjs)
+пишет `src/content/posts/<рубрика>/<slug>.md`, качает скриншоты в WebP в
+`public/uploads/`, сайт собирается для проверки. Модератор смотрит PR и мержит его,
+заявка закрывается сама. Правка заявки пересобирает PR. Чтобы править PR
+вручную, сначала снимите с заявки метку `new-mod`.
+
+Разовая настройка репозитория:
+- создать метку `new-mod`;
+- Settings → Actions → General → Workflow permissions → включить
+  «Allow GitHub Actions to create and approve pull requests».
+
+Проверить разбор заявки локально (без записи файлов):
+`node scripts/mod-from-issue.mjs event.json --dry-run`, где `event.json` —
+`{"issue": {...}}` из API GitHub.
+
 ## Как внести правку
 
 1. Форкните репозиторий и откройте нужный файл в `src/content/`
